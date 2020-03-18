@@ -7,7 +7,7 @@ class Bat(pygame.sprite.Sprite):
         spriteSize = 48
 
         
-        self.image = pygame.transform.scale(pygame.image.load("sprite1.png"), (spriteSize,spriteSize))
+        self.image = pygame.transform.scale(pygame.image.load("sprite2.png"), (spriteSize,spriteSize))
         self.rect = self.image.get_rect()
        
         
@@ -72,7 +72,7 @@ while gameExit == True:
             pressed = False
             bat1.changeSpeed(False)
             bat1.image = bat1.flap2
-    if bat1.rect.y > displayHeight:
+    if bat1.rect.y > displayHeight-19:
         bat1.image = bat1.dead
         canUpdate = False
     print(bat1.rect.y)
