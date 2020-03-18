@@ -34,7 +34,7 @@ class Bat(pygame.sprite.Sprite):
         if canUpdate == True:
             self.rect.y += self.changeY +5
         else:
-            pass
+            self.changeY = 0
 
 
 #Initialisation
@@ -55,9 +55,9 @@ bat1 = Bat(100,100)
 batGroup = pygame.sprite.Group()
 batGroup.add(bat1)
 #game loop
+canUpdate = True
 gameExit = True
 while gameExit == True:
-    canUpdate = True
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             gameExit=True
@@ -72,9 +72,9 @@ while gameExit == True:
             pressed = False
             bat1.changeSpeed(False)
             bat1.image = bat1.flap2
-    if bat1.rect.y > displayHeight-100:
+    if bat1.rect.y > displayHeight:
         bat1.image = bat1.dead
-        canUpdate == False
+        canUpdate = False
     print(bat1.rect.y)
     #in this block of code above it is the basis for movement
     screen.fill((0,0,0))
