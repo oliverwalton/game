@@ -22,6 +22,9 @@ class Bat(pygame.sprite.Sprite):
         
         # this is where the movement mechanic is initailised
         self.changeY = 0
+        self.changeX = 0
+
+        self.walls = None
     def changeSpeed(self,isMoving):
     # in this function, it is the mechanic that lets the bat jump TODO: improve the jumping mechanic
         if isMoving == True:
@@ -32,12 +35,30 @@ class Bat(pygame.sprite.Sprite):
     # this update function is where gravity is set TODO: improve gravity feel
     def update(self,canUpdate):
         #changing update
+        
         if canUpdate == True:
             self.rect.y += self.changeY +5
         else:
             self.changeY = 0
+        
+        self.rect.y += self.changeY
+        blockHitList = pygame.sprite.spritecollide(self, wallGroup, False)
+        for block in blockHitList:
+                if self.changeX > 0:
+                        self.rect.right = block.rect.left
+                else:
+                        self.rect.left = block.rect.right
+class Wall(pygame.sprite.Sprite):
+    def __init__(self,x,y,width,height):
+        super().__init__()
+        self.image=pygame.Surface([width,height])
+        self.image.fill((255,255,255))
 
-
+        self.rect = self.image.get_rect()
+        self.rect.y = y
+        self.rect.x = displayWidth +100
+    def update(self):
+        self.rect.x -=3
 #Initialisation
 pygame.init()
 
@@ -55,6 +76,12 @@ clock = pygame.time.Clock()
 bat1 = Bat(100,100)
 batGroup = pygame.sprite.Group()
 batGroup.add(bat1)
+
+wallGroup = pygame.sprite.Group()
+wall = Wall(50,10,100,100)
+wallGroup.add(wall)
+bat1.walls = wallGroup
+
 #game loop
 canUpdate = True
 gameExit = True
@@ -82,6 +109,9 @@ while gameExit == True:
     
     batGroup.draw(screen)
     batGroup.update(canUpdate)
+
+    wallGroup.draw(screen)
+    wallGroup.update()
     
     pygame.display.update()
     clock.tick(30)
