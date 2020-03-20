@@ -5,30 +5,31 @@ class Bat(pygame.sprite.Sprite):
         super().__init__()
 
         spriteSize = 48
-
         
         self.image = pygame.transform.scale(pygame.image.load("sprite2.png"), (spriteSize,spriteSize))
         self.rect = self.image.get_rect()
-       
         
-        
+        # this is where the sprite images are loaded TODO: remove the sprite images that are not necessary
         self.flap2 = pygame.transform.scale(pygame.image.load("sprite2.png"), (spriteSize,spriteSize))
         self.flap3 = pygame.transform.scale(pygame.image.load("sprite3.png"), (spriteSize, spriteSize))
         self.flap4 = pygame.transform.scale(pygame.image.load("sprite4.png"), (spriteSize, spriteSize))
         self.flap5 = pygame.transform.scale(pygame.image.load("sprite5.png"), (spriteSize, spriteSize))
         self.dead = pygame.transform.scale(pygame.image.load("deadSprite.png"), (spriteSize, spriteSize))
 
-        #self.flap2 = pygame.transform.scale(self.flap2, (64,64))
-        
+        # this is where the starting coordinate is set
         self.rect.x = x
         self.rect.y = y
         
+        # this is where the movement mechanic is initailised
         self.changeY = 0
     def changeSpeed(self,isMoving):
+    # in this function, it is the mechanic that lets the bat jump TODO: improve the jumping mechanic
         if isMoving == True:
             self.changeY -= 1
+        # in this else condition, it is what stops the sprite from moving off the screen so the bat can die
         else:
             self.changeY = 0
+    # this update function is where gravity is set TODO: improve gravity feel
     def update(self,canUpdate):
         #changing update
         if canUpdate == True:
