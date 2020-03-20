@@ -40,7 +40,7 @@ class Bat(pygame.sprite.Sprite):
             self.rect.y += self.changeY +5
         else:
             self.changeY = 0
-        
+        """ 
         self.rect.y += self.changeY
         blockHitList = pygame.sprite.spritecollide(self, wallGroup, False)
         for block in blockHitList:
@@ -48,6 +48,7 @@ class Bat(pygame.sprite.Sprite):
                         self.rect.right = block.rect.left
                 else:
                         self.rect.left = block.rect.right
+                        """
 class Wall(pygame.sprite.Sprite):
     def __init__(self,x,y,width,height):
         super().__init__()
@@ -104,6 +105,13 @@ while gameExit == True:
         bat1.image = bat1.dead
         canUpdate = False
     print(bat1.rect.y)
+
+    pipeCollide = pygame.sprite.spritecollide(bat1, wallGroup, False)
+    if pipeCollide:
+            print("touching pipe")
+            canUpdate = False
+
+
     #in this block of code above it is the basis for movement
     screen.fill((0,0,0))
     
