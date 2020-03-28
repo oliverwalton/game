@@ -38,15 +38,7 @@ class Bat(pygame.sprite.Sprite):
             self.rect.y += self.changeY +5
         else:
             self.changeY = 0
-        """ 
-        self.rect.y += self.changeY
-        blockHitList = pygame.sprite.spritecollide(self, wallGroup, False)
-        for block in blockHitList:
-                if self.changeX > 0:
-                        self.rect.right = block.rect.left
-                else:
-                        self.rect.left = block.rect.right
-                        """
+
 class Wall(pygame.sprite.Sprite):
     def __init__(self,x,y,width,height):
         super().__init__()
@@ -103,11 +95,11 @@ while gameExit == True:
         bat1.image = bat1.dead
         canUpdate = False
     print(bat1.rect.y)
-
+    
+# this checks to see if the bat is touching the pipe, and if it is, it will die
     pipeCollide = pygame.sprite.spritecollide(bat1, wallGroup, False)
     if pipeCollide:
-            print("touching pipe")
-            canUpdate = False
+            bat1.rect.y = displayHeight-19
 
 
     #in this block of code above it is the basis for movement
