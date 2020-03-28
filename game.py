@@ -12,8 +12,6 @@ class Bat(pygame.sprite.Sprite):
         # this is where the sprite images are loaded TODO: remove the sprite images that are not necessary
         self.flap2 = pygame.transform.scale(pygame.image.load("sprite2.png"), (spriteSize,spriteSize))
         self.flap3 = pygame.transform.scale(pygame.image.load("sprite3.png"), (spriteSize, spriteSize))
-        self.flap4 = pygame.transform.scale(pygame.image.load("sprite4.png"), (spriteSize, spriteSize))
-        self.flap5 = pygame.transform.scale(pygame.image.load("sprite5.png"), (spriteSize, spriteSize))
         self.dead = pygame.transform.scale(pygame.image.load("deadSprite.png"), (spriteSize, spriteSize))
 
         # this is where the starting coordinate is set
