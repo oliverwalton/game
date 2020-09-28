@@ -1,5 +1,5 @@
 # game
-##TODO
+## TODO
 * fix gravity acted upon the bat
 * improve the bat animation
 * create pipe code that will create 2 pipes, top and bottom
