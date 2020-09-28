@@ -1,4 +1,6 @@
 import pygame
+import time
+from random import randint
 
 class Bat(pygame.sprite.Sprite):
     def __init__(self,x,y):
@@ -35,9 +37,11 @@ class Bat(pygame.sprite.Sprite):
         #changing update
         
         if canUpdate == True:
-            self.rect.y += self.changeY +5
+            self.rect.y += self.changeY +5 
         else:
             self.changeY = 0
+            self.image = self.dead
+            return False
 
 class Wall(pygame.sprite.Sprite):
     def __init__(self,x,y,width,height):
@@ -48,10 +52,14 @@ class Wall(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.y = y
         self.rect.x = displayWidth +100
+        
     def update(self):
         self.rect.x -=3
 #Initialisation
 pygame.init()
+
+#font = pygame.font.SysFont(None, 25)
+#ScoreBoardFont = pygame.font.Font("PLANK___.ttf", 25)
 
 displayWidth=288
 displayHeight=512 
@@ -69,8 +77,13 @@ batGroup = pygame.sprite.Group()
 batGroup.add(bat1)
 
 wallGroup = pygame.sprite.Group()
-wall = Wall(50,10,100,100)
-wallGroup.add(wall)
+#wall = Wall(50,10,100,100)
+#wallGroup.add(wall)
+#              x, y,   w, h
+wallTop = Wall(50,-800,40,1000)
+wallBot = Wall(50,300,40,1000)
+wallGroup.add(wallTop)
+wallGroup.add(wallBot)
 bat1.walls = wallGroup
 
 #game loop
@@ -79,41 +92,50 @@ gameExit = True
 while gameExit == True:
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
-            gameExit=True
+            gameExit=False
     #movement
-    if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_SPACE:
-            pressed = True
-            bat1.changeSpeed(True)
-            bat1.image = bat1.flap3
-    if event.type == pygame.KEYUP:
-        if event.key == pygame.K_SPACE:
-            pressed = False
-            bat1.changeSpeed(False)
-            bat1.image = bat1.flap2
+    if bat1.update(canUpdate) == True:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    pressed = True
+                    bat1.changeSpeed(True)
+                    bat1.image = bat1.flap3
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_SPACE:
+                    pressed = False
+                    bat1.changeSpeed(False)
+                    bat1.image = bat1.flap2
     if bat1.rect.y > displayHeight-19:
         bat1.image = bat1.dead
-        canUpdate = False
+        bat1.update(False)
+        #canUpdate = False
     print(bat1.rect.y)
     
 # this checks to see if the bat is touching the pipe, and if it is, it will die
     pipeCollide = pygame.sprite.spritecollide(bat1, wallGroup, False)
     if pipeCollide:
             bat1.rect.y = displayHeight-19
+            bat1.update(False)
+            bat1.changeSpeed(False)
+            canUpdate = False
+            #batGroup.remove(bat1)
+            
+            
+
 
 
     #in this block of code above it is the basis for movement
     screen.fill((0,0,0))
-    
     batGroup.draw(screen)
-    batGroup.update(canUpdate)
-
     wallGroup.draw(screen)
-    wallGroup.update()
+    wallGroup.update()    
+    if bat1.update(canUpdate) == True:
+        batGroup.update(canUpdate)
+    else:
+        pass
     
     pygame.display.update()
     clock.tick(30)
 pygame.quit()#this quits pygame and quits python
 quit()
-
-
