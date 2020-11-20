@@ -10,3 +10,4 @@
 * create pipe and background pixelart
 * create a menu of buttons
 * create a leaderboard system with a login system
+* create a pipe generator using pygame.time.set_timer()
